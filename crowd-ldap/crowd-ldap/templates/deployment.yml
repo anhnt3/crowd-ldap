@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crowd
+  namespace: dft
+spec:
+  selector:
+    matchLabels:
+      app: crowd # has to match .spec.template.metadata.labels
+  template:
+    metadata:
+      labels:
+        app: crowd # has to match .spec.selector.matchLabels
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: enviroment
+                operator: In
+                values:
+                - dev
+      containers:
+      - name: crowd
+        image: anhnt3/crowd-ldap:latest
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: TZ
+            value: Asia/Ho_Chi_Minh
+        ports:
+        - containerPort: 8095
+          name: crowd
+        - containerPort: 10389
+          name: ldap
+        volumeMounts:
+#        - name: properties
+#          mountPath: /var/crowd-home/crowd.cfg.xml
+#          subPath: crowd.cfg.xml
+        - name: properties
+          mountPath: /app/crowd-ldap-server/etc/crowd-ldap-server.properties
+          subPath: crowd-ldap-server.properties
+        - name: properties
+          mountPath: /app/crowd-ldap-server/etc/crowd.properties
+          subPath: crowd.properties
+      volumes:
+      - name: properties
+        configMap:
+          name: crowd-config
+

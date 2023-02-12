@@ -1,0 +1,5 @@
+releases:
+- name: crowd-ldap
+  namespace: dft
+  chart: ./crowd-ldap
+  installed: true

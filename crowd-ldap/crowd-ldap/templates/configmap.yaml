@@ -1,0 +1,50 @@
+apiVersion: v1
+data:
+  crowd-ldap-server.properties: |
+    # Crowd LDAP Server Configuration
+
+    listener.port=10389
+
+    #LDAPS
+    ssl.enabled=false
+
+    # ssl.enabled=true
+    # ssl.keystore=etc/crowd-ldap-server.keystore
+    # ssl.certificate.password=changeit
+
+    # Emulate AD memberof (false|true)
+    emulate.ad.memberof=false
+    # Include Nested Groups in memberOf Attribute (false|true)
+    emulate.ad.include.nested=false
+  crowd.cfg.xml: |+
+    <?xml version="1.0" encoding="UTF-8"?>
+
+    <application-configuration>
+      <setupStep>complete</setupStep>
+      <setupType>install.new</setupType>
+      <buildNumber>528</buildNumber>
+      <properties>
+        <property name="crowd.server.id">BY2Z-AGJW-MZZA-1D3Q</property>
+        <property name="hibernate.c3p0.acquire_increment">1</property>
+        <property name="hibernate.c3p0.idle_test_period">100</property>
+        <property name="hibernate.c3p0.max_size">30</property>
+        <property name="hibernate.c3p0.max_statements">0</property>
+        <property name="hibernate.c3p0.min_size">0</property>
+        <property name="hibernate.c3p0.timeout">30</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">minhkhue22tuananh</property>
+        <property name="hibernate.connection.url">jdbc:mysql://mariadb/crowd?autoReconnect=true&amp;characterEncoding=utf8&amp;useUnicode=true</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <property name="hibernate.setup">true</property>
+        <property name="license">AAABMg0ODAoPeJxtUG1LwzAQ/p5fEfBzRl8sghAwJlU613baTtm+xe62Bbq0JGm1/96u276ocBzcP fe8cDeFdHguNfYiHPj30Vi3OOElDjw/RAJsZVTrVKMpN83XFk09646fYPLdyoKxlPjoz4IbkCeWk A7oSYp4PvEixBvtZOUyeQSa7bsBNC670Z3pA6pO0rMRVT1QZzq4XsepVDW1Xds2xj1sd27WaxT3s u4mD7qTtYULfaEq0BbKoYXJhOdpGr/xhC3QqKIdaKkriL9bZYZzuDC8I35AgggVcUbX+Qqn7CXGa YwZLpjAS5YJNkO52Uut7NlRPJW4hOqgm7rZD3hecPyuwGl5RAWYHkwi6OM62BD2PP8g6WbDiC/CV 3RJN6KLRFyn/8MsO1MdpIVfH/wB0i6LzTAuAhUAiHeCPDgqGgyOToFrzFByNlGYBjwCFQCHQATVK vAeRm1vpwy8YcJexi9M9g==X02ff</property>
+      </properties>
+    </application-configuration>
+
+  crowd.properties: "#Crowd Server Configuration\nsession.lastvalidation=session.lastvalidation\nsession.isauthenticated=session.isauthenticated\napplication.password=ldap@123\napplication.name=ldap\nsession.validationinterval=0\ncrowd.server.url=http://localhost:8095/crowd
+    \nsession.tokenkey=session.tokenkey\napplication.login.url=http://localhost:8095/crowd/console/login.action\n"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: crowd-config
+  namespace: dft
